@@ -1,0 +1,99 @@
+{
+  "deals": {
+    "title": "Gestión de Acuerdos",
+    "subtitle": "Gestionar y rastrear todos los acuerdos de socios",
+    "columns": {
+      "dealName": "Nombre del Acuerdo",
+      "accountName": "Cuenta",
+      "status": "Estado",
+      "amount": "Importe",
+      "createdDate": "Creado",
+      "tags": "Etiquetas"
+    },
+    "status": {
+      "Open": "Abierto",
+      "Approved": "Aprobado",
+      "Rejected": "Rechazado"
+    },
+    "filters": {
+      "title": "Filtros",
+      "status": "Estado",
+      "amountRange": "Rango de Importe",
+      "amountMin": "Importe mínimo",
+      "amountMax": "Importe máximo",
+      "dateRange": "Rango de Fechas",
+      "dateFrom": "Desde fecha",
+      "dateTo": "Hasta fecha",
+      "accountName": "Nombre de Cuenta",
+      "dealName": "Nombre del Acuerdo",
+      "apply": "Aplicar Filtros",
+      "clear": "Borrar Todo",
+      "active": "{count} activos",
+      "amountError": "El importe mínimo no puede superar el importe máximo"
+    },
+    "search": {
+      "placeholder": "Buscar por nombre, cuenta, estado o ID..."
+    },
+    "pagination": {
+      "previous": "Anterior",
+      "next": "Siguiente",
+      "page": "Página {page} de {total}",
+      "showing": "Mostrando {from}–{to} de {total} acuerdos"
+    },
+    "detail": {
+      "back": "Volver a Acuerdos",
+      "dealId": "ID del Acuerdo",
+      "partner": "Socio Asignado",
+      "unassigned": "Sin asignar",
+      "updatedAt": "Última Actualización",
+      "smartTags": "Etiquetas Inteligentes"
+    },
+    "errors": {
+      "loadFailed": "Error al cargar los acuerdos",
+      "loadDetailFailed": "Error al cargar el acuerdo",
+      "networkError": "Error de red — compruebe su conexión",
+      "serverError": "Error del servidor — inténtelo de nuevo",
+      "notFound": "Acuerdo no encontrado",
+      "forbidden": "No tiene permiso para ver este acuerdo"
+    },
+    "empty": {
+      "title": "No se encontraron acuerdos",
+      "description": "Intente ajustar su búsqueda o filtros",
+      "noFilters": "Aún no se han creado acuerdos"
+    }
+  },
+  "common": {
+    "loading": "Cargando...",
+    "retry": "Reintentar",
+    "clearFilters": "Borrar todo",
+    "back": "Volver",
+    "close": "Cerrar",
+    "save": "Guardar",
+    "cancel": "Cancelar"
+  },
+  "auth": {
+    "role": "Rol",
+    "admin": "Administrador",
+    "partner": "Socio",
+    "switchRole": "Cambiar Rol",
+    "currentUser": "Conectado como {name}"
+  },
+  "nav": {
+    "deals": "Acuerdos",
+    "admin": "Admin"
+  },
+  "admin": {
+    "title": "Panel de Administración",
+    "subtitle": "Área restringida — solo administradores",
+    "info": {
+      "title": "Información confidencial",
+      "body": "Esta página contiene información importante que solo es visible para los administradores y no puede ser accedida por socios u otros usuarios."
+    }
+  },
+  "smartTags": {
+    "highValue": "Alto Valor",
+    "largeEnterprise": "Gran Empresa",
+    "recentlyCreated": "Creado Recientemente",
+    "staleDeal": "Acuerdo Estancado"
+  }
+}

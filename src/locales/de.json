@@ -1,0 +1,99 @@
+{
+  "deals": {
+    "title": "Deal-Verwaltung",
+    "subtitle": "Alle Partner-Deals verwalten und verfolgen",
+    "columns": {
+      "dealName": "Deal-Name",
+      "accountName": "Konto",
+      "status": "Status",
+      "amount": "Betrag",
+      "createdDate": "Erstellt",
+      "tags": "Tags"
+    },
+    "status": {
+      "Open": "Offen",
+      "Approved": "Genehmigt",
+      "Rejected": "Abgelehnt"
+    },
+    "filters": {
+      "title": "Filter",
+      "status": "Status",
+      "amountRange": "Betragsbereich",
+      "amountMin": "Mindestbetrag",
+      "amountMax": "Höchstbetrag",
+      "dateRange": "Datumsbereich",
+      "dateFrom": "Von Datum",
+      "dateTo": "Bis Datum",
+      "accountName": "Kontoname",
+      "dealName": "Deal-Name",
+      "apply": "Filter anwenden",
+      "clear": "Alle löschen",
+      "active": "{count} aktiv",
+      "amountError": "Mindestbetrag darf den Höchstbetrag nicht überschreiten"
+    },
+    "search": {
+      "placeholder": "Nach Name, Konto, Status oder ID suchen..."
+    },
+    "pagination": {
+      "previous": "Zurück",
+      "next": "Weiter",
+      "page": "Seite {page} von {total}",
+      "showing": "Zeige {from}–{to} von {total} Deals"
+    },
+    "detail": {
+      "back": "Zurück zu Deals",
+      "dealId": "Deal-ID",
+      "partner": "Zugewiesener Partner",
+      "unassigned": "Nicht zugewiesen",
+      "updatedAt": "Zuletzt aktualisiert",
+      "smartTags": "Smart-Tags"
+    },
+    "errors": {
+      "loadFailed": "Deals konnten nicht geladen werden",
+      "loadDetailFailed": "Deal konnte nicht geladen werden",
+      "networkError": "Netzwerkfehler – bitte überprüfen Sie Ihre Verbindung",
+      "serverError": "Serverfehler – bitte versuchen Sie es erneut",
+      "notFound": "Deal nicht gefunden",
+      "forbidden": "Sie haben keine Berechtigung, diesen Deal anzuzeigen"
+    },
+    "empty": {
+      "title": "Keine Deals gefunden",
+      "description": "Versuchen Sie, Ihre Suche oder Filter anzupassen",
+      "noFilters": "Es wurden noch keine Deals erstellt"
+    }
+  },
+  "common": {
+    "loading": "Wird geladen...",
+    "retry": "Erneut versuchen",
+    "clearFilters": "Alle löschen",
+    "back": "Zurück",
+    "close": "Schließen",
+    "save": "Speichern",
+    "cancel": "Abbrechen"
+  },
+  "auth": {
+    "role": "Rolle",
+    "admin": "Admin",
+    "partner": "Partner",
+    "switchRole": "Rolle wechseln",
+    "currentUser": "Angemeldet als {name}"
+  },
+  "nav": {
+    "deals": "Deals",
+    "admin": "Admin"
+  },
+  "admin": {
+    "title": "Admin-Bereich",
+    "subtitle": "Eingeschränkter Bereich — nur für Administratoren",
+    "info": {
+      "title": "Vertrauliche Informationen",
+      "body": "Diese Seite enthält wichtige Informationen, die nur für Administratoren sichtbar sind und von Partnern oder anderen Benutzern nicht aufgerufen werden können."
+    }
+  },
+  "smartTags": {
+    "highValue": "Hoher Wert",
+    "largeEnterprise": "Großunternehmen",
+    "recentlyCreated": "Kürzlich erstellt",
+    "staleDeal": "Veralteter Deal"
+  }
+}

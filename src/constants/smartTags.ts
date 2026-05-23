@@ -1,0 +1,4 @@
+export const HIGH_VALUE_THRESHOLD = 10_000
+export const LARGE_ENTERPRISE_THRESHOLD = 30_000
+export const RECENTLY_CREATED_DAYS = 7
+export const STALE_DEAL_DAYS = 30

@@ -1,0 +1,99 @@
+{
+  "deals": {
+    "title": "案件管理",
+    "subtitle": "すべてのパートナー案件を管理・追跡する",
+    "columns": {
+      "dealName": "案件名",
+      "accountName": "アカウント",
+      "status": "ステータス",
+      "amount": "金額",
+      "createdDate": "作成日",
+      "tags": "タグ"
+    },
+    "status": {
+      "Open": "オープン",
+      "Approved": "承認済み",
+      "Rejected": "却下"
+    },
+    "filters": {
+      "title": "フィルター",
+      "status": "ステータス",
+      "amountRange": "金額範囲",
+      "amountMin": "最小金額",
+      "amountMax": "最大金額",
+      "dateRange": "日付範囲",
+      "dateFrom": "開始日",
+      "dateTo": "終了日",
+      "accountName": "アカウント名",
+      "dealName": "案件名",
+      "apply": "フィルターを適用",
+      "clear": "すべてクリア",
+      "active": "{count}件有効",
+      "amountError": "最小金額は最大金額を超えることができません"
+    },
+    "search": {
+      "placeholder": "名前、アカウント、ステータス、IDで検索..."
+    },
+    "pagination": {
+      "previous": "前へ",
+      "next": "次へ",
+      "page": "{total}ページ中{page}ページ目",
+      "showing": "{total}件中{from}〜{to}件を表示"
+    },
+    "detail": {
+      "back": "案件一覧に戻る",
+      "dealId": "案件ID",
+      "partner": "担当パートナー",
+      "unassigned": "未割り当て",
+      "updatedAt": "最終更新",
+      "smartTags": "スマートタグ"
+    },
+    "errors": {
+      "loadFailed": "案件の読み込みに失敗しました",
+      "loadDetailFailed": "案件の詳細を読み込めませんでした",
+      "networkError": "ネットワークエラー — 接続を確認してください",
+      "serverError": "サーバーエラー — もう一度お試しください",
+      "notFound": "案件が見つかりません",
+      "forbidden": "この案件を閲覧する権限がありません"
+    },
+    "empty": {
+      "title": "案件が見つかりません",
+      "description": "検索条件やフィルターを調整してください",
+      "noFilters": "まだ案件が作成されていません"
+    }
+  },
+  "common": {
+    "loading": "読み込み中...",
+    "retry": "再試行",
+    "clearFilters": "すべてクリア",
+    "back": "戻る",
+    "close": "閉じる",
+    "save": "保存",
+    "cancel": "キャンセル"
+  },
+  "auth": {
+    "role": "役割",
+    "admin": "管理者",
+    "partner": "パートナー",
+    "switchRole": "役割を切り替える",
+    "currentUser": "{name}としてログイン中"
+  },
+  "nav": {
+    "deals": "案件",
+    "admin": "管理者"
+  },
+  "admin": {
+    "title": "管理者パネル",
+    "subtitle": "制限エリア — 管理者のみアクセス可能",
+    "info": {
+      "title": "機密情報",
+      "body": "このページには管理者のみが閲覧できる重要な情報が含まれており、パートナーや他のユーザーはアクセスできません。"
+    }
+  },
+  "smartTags": {
+    "highValue": "高額案件",
+    "largeEnterprise": "大企業",
+    "recentlyCreated": "最近作成",
+    "staleDeal": "停滞案件"
+  }
+}

@@ -1,0 +1,99 @@
+{
+  "deals": {
+    "title": "Deal Management",
+    "subtitle": "Manage and track all partner deals",
+    "columns": {
+      "dealName": "Deal Name",
+      "accountName": "Account",
+      "status": "Status",
+      "amount": "Amount",
+      "createdDate": "Created",
+      "tags": "Tags"
+    },
+    "status": {
+      "Open": "Open",
+      "Approved": "Approved",
+      "Rejected": "Rejected"
+    },
+    "filters": {
+      "title": "Filters",
+      "status": "Status",
+      "amountRange": "Amount Range",
+      "amountMin": "Min amount",
+      "amountMax": "Max amount",
+      "dateRange": "Date Range",
+      "dateFrom": "From date",
+      "dateTo": "To date",
+      "accountName": "Account Name",
+      "dealName": "Deal Name",
+      "apply": "Apply Filters",
+      "clear": "Clear All",
+      "active": "{count} active",
+      "amountError": "Min amount cannot exceed max amount"
+    },
+    "search": {
+      "placeholder": "Search by name, account, status or ID..."
+    },
+    "pagination": {
+      "previous": "Previous",
+      "next": "Next",
+      "page": "Page {page} of {total}",
+      "showing": "Showing {from}–{to} of {total} deals"
+    },
+    "detail": {
+      "back": "Back to Deals",
+      "dealId": "Deal ID",
+      "partner": "Assigned Partner",
+      "unassigned": "Unassigned",
+      "updatedAt": "Last Updated",
+      "smartTags": "Smart Tags"
+    },
+    "errors": {
+      "loadFailed": "Failed to load deals",
+      "loadDetailFailed": "Failed to load deal",
+      "networkError": "Network error — please check your connection",
+      "serverError": "Server error — please try again",
+      "notFound": "Deal not found",
+      "forbidden": "You do not have permission to view this deal"
+    },
+    "empty": {
+      "title": "No deals found",
+      "description": "Try adjusting your search or filters",
+      "noFilters": "No deals have been created yet"
+    }
+  },
+  "common": {
+    "loading": "Loading...",
+    "retry": "Retry",
+    "clearFilters": "Clear All",
+    "back": "Back",
+    "close": "Close",
+    "save": "Save",
+    "cancel": "Cancel"
+  },
+  "auth": {
+    "role": "Role",
+    "admin": "Admin",
+    "partner": "Partner",
+    "switchRole": "Switch Role",
+    "currentUser": "Logged in as {name}"
+  },
+  "nav": {
+    "deals": "Deals",
+    "admin": "Admin"
+  },
+  "admin": {
+    "title": "Admin Panel",
+    "subtitle": "Restricted area — administrators only",
+    "info": {
+      "title": "Confidential information",
+      "body": "This page contains important information that is only visible to administrators and cannot be accessed by partners or other users."
+    }
+  },
+  "smartTags": {
+    "highValue": "High Value",
+    "largeEnterprise": "Large Enterprise",
+    "recentlyCreated": "Recently Created",
+    "staleDeal": "Stale Deal"
+  }
+}

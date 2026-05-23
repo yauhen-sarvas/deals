@@ -1,0 +1,137 @@
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { useRouter } from 'vue-router'
+import { useDealsStore } from '@/stores/deals.store'
+import DealStatusBadge from './DealStatusBadge.vue'
+import DealCard from './DealCard.vue'
+import AppBadge from '@/components/ui/AppBadge.vue'
+import LoadingState from '@/components/common/LoadingState.vue'
+import ErrorState from '@/components/common/ErrorState.vue'
+import EmptyState from '@/components/common/EmptyState.vue'
+import { formatCurrency, formatDate } from '@/utils/formatters'
+import { computeSmartTags, SMART_TAG_COLORS, SMART_TAG_I18N_KEYS } from '@/utils/smartTags'
+import type { SmartTag } from '@/utils/smartTags'
+import type { Deal } from '@/types/deals.types'
+import { ROUTE_NAMES } from '@/router/routes'
+
+const { t, locale } = useI18n()
+const router = useRouter()
+const store = useDealsStore()
+
+interface Column {
+  key: keyof Deal
+  label: string
+  sortable: boolean
+}
+
+const columns = computed<Column[]>(() => [
+  { key: 'dealName', label: t('deals.columns.dealName'), sortable: true },
+  { key: 'accountName', label: t('deals.columns.accountName'), sortable: true },
+  { key: 'status', label: t('deals.columns.status'), sortable: true },
+  { key: 'amount', label: t('deals.columns.amount'), sortable: true },
+  { key: 'createdDate', label: t('deals.columns.createdDate'), sortable: true },
+])
+
+function navigate(deal: Deal) {
+  router.push({ name: ROUTE_NAMES.DEAL_DETAIL, params: { id: deal.dealId } })
+}
+
+function handleSort(col: Column) {
+  if (!col.sortable) return
+  store.setSort(col.key)
+  store.fetchDealsList()
+}
+
+function sortIcon(key: keyof Deal): string {
+  if (store.sortBy !== key) return '↕'
+  return store.sortDir === 'asc' ? '↑' : '↓'
+}
+
+function clearAll() {
+  store.clearFilters()
+  store.setSearch('')
+  store.fetchDealsList()
+}
+
+function tagLabel(tag: SmartTag): string {
+  return t(SMART_TAG_I18N_KEYS[tag] as string)
+}
+</script>
+
+<template>
+  <LoadingState v-if="store.isLoading" />
+
+  <ErrorState
+    v-else-if="store.error"
+    :message="store.error.message"
+    @retry="store.fetchDealsList()"
+  />
+
+  <EmptyState
+    v-else-if="store.deals.length === 0"
+    :has-filters="store.hasActiveFilters"
+    @clear-filters="clearAll"
+  />
+
+  <template v-else>
+    <!-- Desktop table -->
+    <div class="hidden md:block overflow-x-auto rounded-lg border border-gray-200 shadow-sm">
+      <table class="min-w-full divide-y divide-gray-200 bg-white text-sm">
+        <thead class="bg-gray-50">
+          <tr>
+            <th
+              v-for="col in columns"
+              :key="col.key"
+              scope="col"
+              :class="[
+                'px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider',
+                col.sortable ? 'cursor-pointer select-none hover:bg-gray-100' : '',
+              ]"
+              @click="handleSort(col)"
+            >
+              <span class="flex items-center gap-1">
+                {{ col.label }}
+                <span v-if="col.sortable" class="text-gray-400 text-xs">{{ sortIcon(col.key) }}</span>
+              </span>
+            </th>
+            <th scope="col" class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+              {{ t('deals.columns.tags') }}
+            </th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-100">
+          <tr
+            v-for="deal in store.deals"
+            :key="deal.dealId"
+            class="hover:bg-blue-50 cursor-pointer transition-colors"
+            tabindex="0"
+            @click="navigate(deal)"
+            @keydown.enter="navigate(deal)"
+          >
+            <td class="px-4 py-3 font-medium text-gray-900 max-w-[200px] truncate">{{ deal.dealName }}</td>
+            <td class="px-4 py-3 text-gray-600 max-w-[180px] truncate">{{ deal.accountName }}</td>
+            <td class="px-4 py-3"><DealStatusBadge :status="deal.status" /></td>
+            <td class="px-4 py-3 font-medium text-gray-900">{{ formatCurrency(deal.amount, locale) }}</td>
+            <td class="px-4 py-3 text-gray-500">{{ formatDate(deal.createdDate, locale) }}</td>
+            <td class="px-4 py-3">
+              <div class="flex flex-wrap gap-1">
+                <AppBadge
+                  v-for="tag in computeSmartTags(deal)"
+                  :key="tag"
+                  variant="custom"
+                  :custom-class="SMART_TAG_COLORS[tag]"
+                >{{ tagLabel(tag) }}</AppBadge>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Mobile cards -->
+    <div class="md:hidden flex flex-col gap-3">
+      <DealCard v-for="deal in store.deals" :key="deal.dealId" :deal="deal" />
+    </div>
+  </template>
+</template>
