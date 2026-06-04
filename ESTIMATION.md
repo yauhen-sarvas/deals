@@ -44,9 +44,9 @@
 | 24 | `LoadingState`, `ErrorState`, `EmptyState` | S | 0.5h | High | 18 | |
 | 25 | `AppHeader`, `AppLayout`, `LanguageSwitcher` | M | 1h | Medium | 18, 10 | Role switcher UX |
 | 26 | `DealsListView.vue` | L | 1.5h | Medium | 20–25, 13–17 | Full integration |
-| 27 | `DealDetailView.vue` | S | 0.5h | High | 18, 11 | |
+| 27 | `DealDetailPanel.vue` (inline panel, replaced separate view) | S | 0.5h | High | 18, 11 | |
 | 28 | Router (constants, guards, lazy routes) | XS | 0.25h | High | 26, 27 | Includes `routes.ts`, `guards.ts` |
-| 29 | i18n — 4 locales (en/de/ja/es) | M | 1h | Medium | 1 | ~90 keys × 4 |
+| 29 | i18n — 5 locales (en/de/ja/es/zh) | M | 1h | Medium | 1 | ~90 keys × 5 |
 | 30 | `ErrorBoundary.vue` | XS | 0.25h | High | 18 | `onErrorCaptured` pattern |
 | 31 | Unit tests — stores, utils, composables | M | 1h | Medium | 8–17 | 12 files, 142 tests |
 | 32 | README, DECISIONS, ESTIMATION, REPORT, readmeAI | S | 0.5h | High | All | |

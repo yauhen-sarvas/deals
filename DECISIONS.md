@@ -75,7 +75,7 @@ Pagination was chosen for two reasons:
 
 **Rationale**: Inline string route names (`'deals'`, `'deal-detail'`) are silently wrong when mistyped — the app navigates to the catch-all redirect with no error. A `ROUTE_NAMES` constant makes the compiler catch typos at import time, and renaming a route is a one-line change instead of a global string search.
 
-**Pattern**: `as const` ensures TypeScript narrows the type to the literal values, enabling `RouteName` union type extraction via `typeof ROUTE_NAMES[keyof typeof ROUTE_NAMES]`.
+**Pattern**: `as const` ensures TypeScript narrows the type to the literal values, making it impossible to pass an arbitrary string where a route name is expected.
 
 ---
 

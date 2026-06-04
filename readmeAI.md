@@ -45,7 +45,7 @@ export function computeSmartTags(deal: Deal): SmartTag[] {
 ## Where Tags Appear
 
 - **Deal list table** — in the Tags column (desktop) or on the card (mobile)
-- **Deal detail page** — displayed prominently below the deal name
+- **Deal detail panel** — displayed prominently below the deal name in the inline slide-in panel
 
 ## Approach: Rule-Based, Not ML
 
@@ -67,5 +67,5 @@ To add a new tag:
 1. Add the tag string to the `SmartTag` union type in `smartTags.ts`
 2. Add the condition in `computeSmartTags()`
 3. Add a color class in `SMART_TAG_COLORS`
-4. Add a translation key in all 4 locale files under `smartTags.*`
+4. Add a translation key in all 5 locale files under `smartTags.*` (en/de/ja/es/zh)
 5. Add a unit test in `src/utils/__tests__/smartTags.test.ts`

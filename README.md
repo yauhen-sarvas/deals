@@ -17,7 +17,7 @@ npm audit         # Dependency vulnerability scan (run before deploy)
 
 ```
 src/
-├── types/          # Shared TypeScript interfaces — barrel export via index.ts
+├── types/          # Shared TypeScript interfaces (deals.types.ts)
 ├── constants/      # Named constants by domain: api, cache, http, pagination, storage, smartTags
 ├── mocks/          # MSW handlers + seeded faker data (120 deals)
 ├── services/       # Axios client (retry + backoff), deals API wrapper, LRU cache
@@ -25,13 +25,13 @@ src/
 ├── composables/    # Feature hooks: useSearch, useFilters, usePagination, useRealtime, useAuth
 ├── utils/          # Pure functions: deduplication, formatters, sanitize, smartTags
 ├── components/
-│   ├── ui/         # Atomic, reusable: AppButton, AppBadge, AppInput, AppCheckbox — barrel index.ts
-│   ├── deals/      # Domain components: DealTable, DealCard, DealFilters, DealSearch, DealStatusBadge
+│   ├── ui/         # Atomic, reusable: AppButton, AppBadge, AppInput, AppCheckbox
+│   ├── deals/      # Domain components: DealTable, DealCard, DealDetailPanel, DealFilters, DealSearch, DealStatusBadge
 │   ├── layout/     # AppLayout, AppHeader, LanguageSwitcher, RoleSwitcher
 │   └── common/     # LoadingState, ErrorState, EmptyState, ErrorBoundary
-├── views/          # Route-level pages: DealsListView, DealDetailView, AdminView
+├── views/          # Route-level pages: DealsListView, AdminView
 ├── router/         # routes.ts (ROUTE_NAMES constants), guards.ts, index.ts
-├── locales/        # en, de, ja, es JSON translation files
+├── locales/        # en, de, ja, es, zh JSON translation files
 └── i18n.ts         # vue-i18n v9 Composition API setup, locale persisted to localStorage
 ```
 
@@ -48,7 +48,7 @@ Implemented via Tailwind CSS `md:` breakpoint — no JS-based breakpoint detecti
 ## i18n Strategy
 
 - **Runtime**: `vue-i18n` v9 with Composition API (`useI18n()`)
-- **Locales**: `en`, `de`, `ja`, `es` — all messages translated at build time
+- **Locales**: `en`, `de`, `ja`, `es`, `zh` — all messages translated at build time
 - **Number/Date formatting**: `Intl.NumberFormat` and `Intl.DateTimeFormat` for locale-aware currency and dates; no external library dependency
 - **Locale switching**: instant via reactive `locale` ref — no page reload required
 - **Fallback**: `en` for any missing keys
@@ -58,7 +58,7 @@ Implemented via Tailwind CSS `md:` breakpoint — no JS-based breakpoint detecti
 Pinia (Composition API style) with three stores:
 - `auth.store` — current user, role, user switching
 - `deals.store` — deals list, filters, search, sort, pagination, loading/error state
-- `ui.store` — filter sidebar visibility, mobile menu
+- `ui.store` — filter sidebar visibility
 
 Stores are lean; business logic lives in composables that coordinate multiple stores.
 

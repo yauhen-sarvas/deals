@@ -12,7 +12,7 @@
 | Composables (`useSearch`, `useFilters`, `usePagination`, `useRealtime`, `useAuth`) | 2h | 2h | On target |
 | Components (atoms, deals, layout, common) | 6.25h | 7h | +0.75h — DealTable responsive + sort UX took longer |
 | Views + Router | 2.25h | 2.25h | On target |
-| i18n (4 locales) | 1h | 1h | On target |
+| i18n (5 locales: en/de/ja/es/zh) | 1h | 1.25h | +0.25h — added Chinese (zh) locale |
 | Production refactoring | — | 2h | Not planned — route constants, guards.ts, error localisation, `$reset()`, ErrorBoundary |
 | Unit tests (stores, utils, composables) | 1h | 2h | +1h — scope expanded to 12 files / 142 tests; ESM mock hoisting and lifecycle setup added complexity |
 | Docs | 0.5h | 0.5h | On target |
@@ -49,8 +49,8 @@ The unit test suite fully covers stores, utils, and composables (142 tests). The
 **2. TanStack Query**
 The manual cache service (`cache.service.ts`) and polling composable (`useRealtime.ts`) reimplement features that `@tanstack/vue-query` provides out of the box: stale-while-revalidate, background refetch, query invalidation, and request deduplication. For a real product I'd replace both with `vue-query`.
 
-**3. Accessibility audit**
-Focus management when the filter sidebar opens/closes, ARIA `live` regions for loading state announcements, and correct `role="table"` landmarks were partially implemented. A full WCAG 2.1 AA pass would be needed before shipping.
+**3. ~~Accessibility audit~~ — completed**
+A full accessibility pass was performed: `focus-visible` rings on all interactive elements (search clear button, language switcher, nav links, DealCard, RoleSwitcher menu items, table rows, pagination buttons), `aria-current="page"` on active nav links, `aria-label` on icon-only buttons and `role="button"` cards, `aria-hidden="true"` on decorative SVGs, and correct `aria-invalid` / `aria-describedby` wiring on form inputs. Touch targets increased on close buttons and pagination controls.
 
 **4. URL-synced filters**
 Currently filters are in-memory state only. For a B2B dashboard, partners expect to bookmark or share a filtered view. I'd sync `filters` and `search` to `?status=Open&search=acme` via Vue Router's `query` params using a `watch` on the route.
@@ -66,4 +66,4 @@ The RBAC simulation uses a client-side store switch. In a real system this would
 | In-memory cache only | `cache.service.ts` is cleared on page reload and is not shared across browser tabs. A PWA-grade solution would use a service worker cache or `@tanstack/vue-query`. | Low |
 | Simulated auth (no real JWT) | Role switching is a UI-only concern — there is no actual token, no `/login` endpoint, no expiry, no silent refresh. The `adminGuard` navigation guard enforces the role check in the router but cannot prevent direct API calls by a determined user in a browser console. | Low (by design — frontend simulation) |
 | No E2E tests | Playwright or Cypress tests covering the full user journey (login → filter → navigate to detail → go back) are absent. MSW handlers are already in place to support them. | Medium |
-| All locales bundled at build time | All 4 locale JSON files are included in the initial bundle (~8 KB gzip). For 20+ locales, switch to dynamic `import()` with `vue-i18n` lazy loading. | Low |
+| All locales bundled at build time | All 5 locale JSON files (en/de/ja/es/zh) are included in the initial bundle (~8 KB gzip). For 20+ locales, switch to dynamic `import()` with `vue-i18n` lazy loading. | Low |
