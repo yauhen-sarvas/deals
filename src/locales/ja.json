@@ -29,24 +29,29 @@
       "apply": "フィルターを適用",
       "clear": "すべてクリア",
       "active": "{count}件有効",
-      "amountError": "最小金額は最大金額を超えることができません"
+      "amountError": "最小金額は最大金額を超えることができません",
+      "dateError": "開始日は終了日より後にすることはできません"
     },
     "search": {
-      "placeholder": "名前、アカウント、ステータス、IDで検索..."
+      "placeholder": "名前、アカウント、ステータス、IDで検索...",
+      "clear": "検索をクリア"
     },
     "pagination": {
       "previous": "前へ",
       "next": "次へ",
       "page": "{total}ページ中{page}ページ目",
-      "showing": "{total}件中{from}〜{to}件を表示"
+      "showing": "{total}件中{from}〜{to}件を表示",
+      "goTo": "ページへ移動",
+      "goToPageN": "{page}ページへ移動",
+      "ellipsis": "他のページ",
+      "nav": "ページナビゲーション",
+      "pageSize": "1ページの表示件数"
     },
     "detail": {
-      "back": "案件一覧に戻る",
       "dealId": "案件ID",
       "partner": "担当パートナー",
       "unassigned": "未割り当て",
-      "updatedAt": "最終更新",
-      "smartTags": "スマートタグ"
+      "updatedAt": "最終更新"
     },
     "errors": {
       "loadFailed": "案件の読み込みに失敗しました",
@@ -66,16 +71,13 @@
     "loading": "読み込み中...",
     "retry": "再試行",
     "clearFilters": "すべてクリア",
-    "back": "戻る",
     "close": "閉じる",
-    "save": "保存",
-    "cancel": "キャンセル"
+    "errorTitle": "エラーが発生しました"
   },
   "auth": {
     "role": "役割",
     "admin": "管理者",
     "partner": "パートナー",
-    "switchRole": "役割を切り替える",
     "currentUser": "{name}としてログイン中"
   },
   "nav": {
@@ -88,7 +90,8 @@
     "info": {
       "title": "機密情報",
       "body": "このページには管理者のみが閲覧できる重要な情報が含まれており、パートナーや他のユーザーはアクセスできません。"
-    }
+    },
+    "stats": { "total": "合計案件数" }
   },
   "smartTags": {
     "highValue": "高額案件",

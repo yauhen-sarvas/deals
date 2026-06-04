@@ -1,4 +1,4 @@
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useDealsStore, defaultFilters } from '@/stores/deals.store'
 import { useUiStore } from '@/stores/ui.store'
@@ -11,10 +11,20 @@ export function useFilters() {
 
   const localFilters = ref<DealFilters>({ ...store.filters })
 
+  watch(() => store.filters, syncFromStore, { deep: true })
+
   const amountError = computed(() => {
     const { amountMin, amountMax } = localFilters.value
     if (amountMin !== null && amountMax !== null && amountMin > amountMax) {
       return t('deals.filters.amountError')
+    }
+    return null
+  })
+
+  const dateError = computed(() => {
+    const { dateFrom, dateTo } = localFilters.value
+    if (dateFrom && dateTo && dateFrom > dateTo) {
+      return t('deals.filters.dateError')
     }
     return null
   })
@@ -29,7 +39,7 @@ export function useFilters() {
   }
 
   function applyFilters() {
-    if (amountError.value) return
+    if (amountError.value || dateError.value) return
     store.applyFilters(localFilters.value)
     uiStore.closeFilters()
     store.fetchDealsList()
@@ -46,5 +56,5 @@ export function useFilters() {
     localFilters.value = { ...store.filters }
   }
 
-  return { localFilters, amountError, toggleStatus, applyFilters, clearFilters, syncFromStore }
+  return { localFilters, amountError, dateError, toggleStatus, applyFilters, clearFilters }
 }

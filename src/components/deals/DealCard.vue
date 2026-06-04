@@ -1,43 +1,40 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useRouter } from 'vue-router'
 import DealStatusBadge from './DealStatusBadge.vue'
 import AppBadge from '@/components/ui/AppBadge.vue'
 import { formatCurrency, formatDate } from '@/utils/formatters'
 import { computeSmartTags, SMART_TAG_COLORS, SMART_TAG_I18N_KEYS } from '@/utils/smartTags'
 import type { SmartTag } from '@/utils/smartTags'
 import type { Deal } from '@/types/deals.types'
-import { ROUTE_NAMES } from '@/router/routes'
+import { useDealsStore } from '@/stores/deals.store'
 
 const props = defineProps<{ deal: Deal }>()
 const { t, locale } = useI18n()
-const router = useRouter()
+const store = useDealsStore()
 
 const tags = computed(() => computeSmartTags(props.deal))
 
-function navigate() {
-  router.push({ name: ROUTE_NAMES.DEAL_DETAIL, params: { id: props.deal.dealId } })
-}
-
 function tagLabel(tag: SmartTag): string {
-  return t(SMART_TAG_I18N_KEYS[tag] as string)
+  return t(SMART_TAG_I18N_KEYS[tag])
 }
 </script>
 
 <template>
   <div
     class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm cursor-pointer
-           hover:border-blue-400 hover:shadow-md transition-all active:scale-[0.99]"
+           hover:border-blue-400 hover:shadow-md transition-all active:scale-[0.99]
+           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
     role="button"
     tabindex="0"
-    @click="navigate"
-    @keydown.enter="navigate"
+    :aria-label="deal.dealName"
+    @click="store.selectDeal(deal.dealId)"
+    @keydown.enter="store.selectDeal(deal.dealId)"
   >
     <div class="flex items-start justify-between gap-2 mb-3">
       <div class="min-w-0">
-        <p class="font-semibold text-gray-900 truncate">{{ deal.dealName }}</p>
-        <p class="text-sm text-gray-500 truncate">{{ deal.accountName }}</p>
+        <p class="font-semibold text-gray-900 truncate" :title="deal.dealName">{{ deal.dealName }}</p>
+        <p class="text-sm text-gray-500 truncate" :title="deal.accountName">{{ deal.accountName }}</p>
       </div>
       <DealStatusBadge :status="deal.status" />
     </div>

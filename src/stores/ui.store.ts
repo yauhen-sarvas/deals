@@ -3,7 +3,6 @@ import { ref } from 'vue'
 
 export const useUiStore = defineStore('ui', () => {
   const isFiltersOpen = ref(false)
-  const isMobileMenuOpen = ref(false)
 
   function toggleFilters() {
     isFiltersOpen.value = !isFiltersOpen.value
@@ -13,9 +12,5 @@ export const useUiStore = defineStore('ui', () => {
     isFiltersOpen.value = false
   }
 
-  function toggleMobileMenu() {
-    isMobileMenuOpen.value = !isMobileMenuOpen.value
-  }
-
-  return { isFiltersOpen, isMobileMenuOpen, toggleFilters, closeFilters, toggleMobileMenu }
+  return { isFiltersOpen, toggleFilters, closeFilters }
 })

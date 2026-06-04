@@ -34,12 +34,6 @@ export interface DealsApiResponse {
   pagination: PaginationMeta
 }
 
-export interface ApiError {
-  message: string
-  code: string
-  status: number
-}
-
 export interface StoreError {
   message: string
   status?: number

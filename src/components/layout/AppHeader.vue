@@ -24,20 +24,22 @@ const auth = useAuthStore()
       <nav class="flex items-center gap-1">
         <RouterLink
           :to="{ name: ROUTE_NAMES.DEALS }"
-          class="rounded-md px-3 py-1.5 text-sm font-medium transition-colors"
-          :class="$route.name === ROUTE_NAMES.DEALS || $route.name === ROUTE_NAMES.DEAL_DETAIL
+          class="rounded-md px-3 py-1.5 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+          :class="$route.name === ROUTE_NAMES.DEALS
             ? 'bg-blue-50 text-blue-700'
             : 'text-gray-600 hover:bg-gray-100'"
+          :aria-current="$route.name === ROUTE_NAMES.DEALS ? 'page' : undefined"
         >
           {{ t('nav.deals') }}
         </RouterLink>
         <RouterLink
           v-if="auth.isAdmin"
           :to="{ name: ROUTE_NAMES.ADMIN }"
-          class="rounded-md px-3 py-1.5 text-sm font-medium transition-colors"
+          class="rounded-md px-3 py-1.5 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
           :class="$route.name === ROUTE_NAMES.ADMIN
             ? 'bg-blue-50 text-blue-700'
             : 'text-gray-600 hover:bg-gray-100'"
+          :aria-current="$route.name === ROUTE_NAMES.ADMIN ? 'page' : undefined"
         >
           {{ t('nav.admin') }}
         </RouterLink>

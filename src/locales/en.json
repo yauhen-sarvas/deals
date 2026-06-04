@@ -29,24 +29,29 @@
       "apply": "Apply Filters",
       "clear": "Clear All",
       "active": "{count} active",
-      "amountError": "Min amount cannot exceed max amount"
+      "amountError": "Min amount cannot exceed max amount",
+      "dateError": "Start date cannot be after end date"
     },
     "search": {
-      "placeholder": "Search by name, account, status or ID..."
+      "placeholder": "Search by name, account, status or ID...",
+      "clear": "Clear search"
     },
     "pagination": {
       "previous": "Previous",
       "next": "Next",
       "page": "Page {page} of {total}",
-      "showing": "Showing {from}–{to} of {total} deals"
+      "showing": "Showing {from}–{to} of {total} deals",
+      "goTo": "Go to page",
+      "goToPageN": "Go to page {page}",
+      "ellipsis": "More pages",
+      "nav": "Pagination",
+      "pageSize": "Results per page"
     },
     "detail": {
-      "back": "Back to Deals",
       "dealId": "Deal ID",
       "partner": "Assigned Partner",
       "unassigned": "Unassigned",
-      "updatedAt": "Last Updated",
-      "smartTags": "Smart Tags"
+      "updatedAt": "Last Updated"
     },
     "errors": {
       "loadFailed": "Failed to load deals",
@@ -66,16 +71,13 @@
     "loading": "Loading...",
     "retry": "Retry",
     "clearFilters": "Clear All",
-    "back": "Back",
     "close": "Close",
-    "save": "Save",
-    "cancel": "Cancel"
+    "errorTitle": "Something went wrong"
   },
   "auth": {
     "role": "Role",
     "admin": "Admin",
     "partner": "Partner",
-    "switchRole": "Switch Role",
     "currentUser": "Logged in as {name}"
   },
   "nav": {
@@ -88,6 +90,9 @@
     "info": {
       "title": "Confidential information",
       "body": "This page contains important information that is only visible to administrators and cannot be accessed by partners or other users."
+    },
+    "stats": {
+      "total": "Total Deals"
     }
   },
   "smartTags": {

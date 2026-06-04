@@ -1,4 +1,4 @@
-import { ref, watch } from 'vue'
+import { ref, watch, onUnmounted } from 'vue'
 import { useDealsStore } from '@/stores/deals.store'
 import { SEARCH_DEBOUNCE_MS } from '@/constants/api'
 
@@ -8,7 +8,11 @@ export function useSearch() {
   let debounceTimer: ReturnType<typeof setTimeout> | null = null
 
   watch(() => store.search, (value) => {
-    if (localQuery.value !== value) localQuery.value = value
+    if (debounceTimer) {
+      clearTimeout(debounceTimer)
+      debounceTimer = null
+    }
+    localQuery.value = value
   })
 
   watch(localQuery, (value) => {
@@ -24,6 +28,8 @@ export function useSearch() {
     store.setSearch('')
     store.fetchDealsList()
   }
+
+  onUnmounted(() => { if (debounceTimer) clearTimeout(debounceTimer) })
 
   return { localQuery, clearSearch }
 }

@@ -29,24 +29,29 @@
       "apply": "Filter anwenden",
       "clear": "Alle löschen",
       "active": "{count} aktiv",
-      "amountError": "Mindestbetrag darf den Höchstbetrag nicht überschreiten"
+      "amountError": "Mindestbetrag darf den Höchstbetrag nicht überschreiten",
+      "dateError": "Startdatum darf nicht nach dem Enddatum liegen"
     },
     "search": {
-      "placeholder": "Nach Name, Konto, Status oder ID suchen..."
+      "placeholder": "Nach Name, Konto, Status oder ID suchen...",
+      "clear": "Suche leeren"
     },
     "pagination": {
       "previous": "Zurück",
       "next": "Weiter",
       "page": "Seite {page} von {total}",
-      "showing": "Zeige {from}–{to} von {total} Deals"
+      "showing": "Zeige {from}–{to} von {total} Deals",
+      "goTo": "Gehe zu Seite",
+      "goToPageN": "Zu Seite {page}",
+      "ellipsis": "Weitere Seiten",
+      "nav": "Seitennavigation",
+      "pageSize": "Ergebnisse pro Seite"
     },
     "detail": {
-      "back": "Zurück zu Deals",
       "dealId": "Deal-ID",
       "partner": "Zugewiesener Partner",
       "unassigned": "Nicht zugewiesen",
-      "updatedAt": "Zuletzt aktualisiert",
-      "smartTags": "Smart-Tags"
+      "updatedAt": "Zuletzt aktualisiert"
     },
     "errors": {
       "loadFailed": "Deals konnten nicht geladen werden",
@@ -66,16 +71,13 @@
     "loading": "Wird geladen...",
     "retry": "Erneut versuchen",
     "clearFilters": "Alle löschen",
-    "back": "Zurück",
     "close": "Schließen",
-    "save": "Speichern",
-    "cancel": "Abbrechen"
+    "errorTitle": "Etwas ist schiefgelaufen"
   },
   "auth": {
     "role": "Rolle",
     "admin": "Admin",
     "partner": "Partner",
-    "switchRole": "Rolle wechseln",
     "currentUser": "Angemeldet als {name}"
   },
   "nav": {
@@ -88,7 +90,8 @@
     "info": {
       "title": "Vertrauliche Informationen",
       "body": "Diese Seite enthält wichtige Informationen, die nur für Administratoren sichtbar sind und von Partnern oder anderen Benutzern nicht aufgerufen werden können."
-    }
+    },
+    "stats": { "total": "Deals gesamt" }
   },
   "smartTags": {
     "highValue": "Hoher Wert",

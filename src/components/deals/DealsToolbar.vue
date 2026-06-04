@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useDealsStore } from '@/stores/deals.store'
 import { PAGE_SIZE_OPTIONS } from '@/constants/pagination'
@@ -13,18 +13,17 @@ const store = useDealsStore()
 const uiStore = useUiStore()
 
 const pageSizeOptions = PAGE_SIZE_OPTIONS
-const localPageSize = ref(store.pagination.pageSize)
+const localPageSize = computed(() => store.pagination.pageSize)
 const isPageSizeOpen = ref(false)
 
 function changePageSize(size: number) {
-  localPageSize.value = size
-  store.pagination.pageSize = size
-  store.pagination.page = 1
+  store.setPageSize(size)
   store.fetchDealsList()
 }
 
 function clearAll() {
   store.clearFilters()
+  store.setSearch('')
   store.fetchDealsList()
 }
 </script>
@@ -57,7 +56,9 @@ function clearAll() {
       </AppButton>
 
       <div class="relative">
+        <label for="page-size-select" class="sr-only">{{ t('deals.pagination.pageSize') }}</label>
         <select
+          id="page-size-select"
           :value="localPageSize"
           class="appearance-none rounded-md border border-gray-300 px-2 pr-6 py-1.5 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
           @focus="isPageSizeOpen = true"

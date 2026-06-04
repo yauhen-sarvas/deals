@@ -1,0 +1,102 @@
+{
+  "deals": {
+    "title": "交易管理",
+    "subtitle": "管理和跟踪所有合作伙伴交易",
+    "columns": {
+      "dealName": "交易名称",
+      "accountName": "账户",
+      "status": "状态",
+      "amount": "金额",
+      "createdDate": "创建日期",
+      "tags": "标签"
+    },
+    "status": {
+      "Open": "开放",
+      "Approved": "已批准",
+      "Rejected": "已拒绝"
+    },
+    "filters": {
+      "title": "筛选",
+      "status": "状态",
+      "amountRange": "金额范围",
+      "amountMin": "最低金额",
+      "amountMax": "最高金额",
+      "dateRange": "日期范围",
+      "dateFrom": "开始日期",
+      "dateTo": "结束日期",
+      "accountName": "账户名称",
+      "dealName": "交易名称",
+      "apply": "应用筛选",
+      "clear": "清除全部",
+      "active": "{count} 个已激活",
+      "amountError": "最低金额不能超过最高金额",
+      "dateError": "开始日期不能晚于结束日期"
+    },
+    "search": {
+      "placeholder": "按名称、账户、状态或ID搜索...",
+      "clear": "清除搜索"
+    },
+    "pagination": {
+      "previous": "上一页",
+      "next": "下一页",
+      "page": "第 {page} 页，共 {total} 页",
+      "showing": "显示第 {from}–{to} 条，共 {total} 条交易",
+      "goTo": "跳转至页",
+      "goToPageN": "跳转至第{page}页",
+      "ellipsis": "更多页",
+      "nav": "分页导航",
+      "pageSize": "每页显示条数"
+    },
+    "detail": {
+      "dealId": "交易ID",
+      "partner": "指定合作伙伴",
+      "unassigned": "未指定",
+      "updatedAt": "最后更新"
+    },
+    "errors": {
+      "loadFailed": "加载交易失败",
+      "loadDetailFailed": "加载交易详情失败",
+      "networkError": "网络错误 — 请检查您的连接",
+      "serverError": "服务器错误 — 请稍后重试",
+      "notFound": "未找到交易",
+      "forbidden": "您没有权限查看此交易"
+    },
+    "empty": {
+      "title": "未找到交易",
+      "description": "请尝试调整搜索条件或筛选器",
+      "noFilters": "尚未创建任何交易"
+    }
+  },
+  "common": {
+    "loading": "加载中...",
+    "retry": "重试",
+    "clearFilters": "清除全部",
+    "close": "关闭",
+    "errorTitle": "出现了错误"
+  },
+  "auth": {
+    "role": "角色",
+    "admin": "管理员",
+    "partner": "合作伙伴",
+    "currentUser": "当前登录：{name}"
+  },
+  "nav": {
+    "deals": "交易",
+    "admin": "管理"
+  },
+  "admin": {
+    "title": "管理面板",
+    "subtitle": "受限区域 — 仅限管理员",
+    "info": {
+      "title": "机密信息",
+      "body": "此页面包含仅对管理员可见的重要信息，合作伙伴及其他用户无法访问。"
+    },
+    "stats": { "total": "交易总数" }
+  },
+  "smartTags": {
+    "highValue": "高价值",
+    "largeEnterprise": "大型企业",
+    "recentlyCreated": "最近创建",
+    "staleDeal": "停滞交易"
+  }
+}

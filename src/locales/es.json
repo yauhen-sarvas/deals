@@ -29,24 +29,29 @@
       "apply": "Aplicar Filtros",
       "clear": "Borrar Todo",
       "active": "{count} activos",
-      "amountError": "El importe mínimo no puede superar el importe máximo"
+      "amountError": "El importe mínimo no puede superar el importe máximo",
+      "dateError": "La fecha de inicio no puede ser posterior a la fecha de fin"
     },
     "search": {
-      "placeholder": "Buscar por nombre, cuenta, estado o ID..."
+      "placeholder": "Buscar por nombre, cuenta, estado o ID...",
+      "clear": "Borrar búsqueda"
     },
     "pagination": {
       "previous": "Anterior",
       "next": "Siguiente",
       "page": "Página {page} de {total}",
-      "showing": "Mostrando {from}–{to} de {total} acuerdos"
+      "showing": "Mostrando {from}–{to} de {total} acuerdos",
+      "goTo": "Ir a la página",
+      "goToPageN": "Ir a la página {page}",
+      "ellipsis": "Más páginas",
+      "nav": "Paginación",
+      "pageSize": "Resultados por página"
     },
     "detail": {
-      "back": "Volver a Acuerdos",
       "dealId": "ID del Acuerdo",
       "partner": "Socio Asignado",
       "unassigned": "Sin asignar",
-      "updatedAt": "Última Actualización",
-      "smartTags": "Etiquetas Inteligentes"
+      "updatedAt": "Última Actualización"
     },
     "errors": {
       "loadFailed": "Error al cargar los acuerdos",
@@ -66,16 +71,13 @@
     "loading": "Cargando...",
     "retry": "Reintentar",
     "clearFilters": "Borrar todo",
-    "back": "Volver",
     "close": "Cerrar",
-    "save": "Guardar",
-    "cancel": "Cancelar"
+    "errorTitle": "Algo salió mal"
   },
   "auth": {
     "role": "Rol",
     "admin": "Administrador",
     "partner": "Socio",
-    "switchRole": "Cambiar Rol",
     "currentUser": "Conectado como {name}"
   },
   "nav": {
@@ -88,7 +90,8 @@
     "info": {
       "title": "Información confidencial",
       "body": "Esta página contiene información importante que solo es visible para los administradores y no puede ser accedida por socios u otros usuarios."
-    }
+    },
+    "stats": { "total": "Total de acuerdos" }
   },
   "smartTags": {
     "highValue": "Alto Valor",

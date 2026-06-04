@@ -39,6 +39,7 @@ export async function fetchDeals(
   pagination: Pick<PaginationMeta, 'page' | 'pageSize'>,
   sortBy?: string,
   sortDir?: 'asc' | 'desc',
+  signal?: AbortSignal,
 ): Promise<DealsApiResponse> {
   const params = buildQueryParams(filters, search, pagination, sortBy, sortDir)
   const key = cacheKey(params)
@@ -46,21 +47,22 @@ export async function fetchDeals(
   const cached = cacheService.get<DealsApiResponse>(key)
   if (cached) return cached
 
-  const response = await apiClient.get<DealsApiResponse>('/api/deals', { params })
+  const response = await apiClient.get<DealsApiResponse>('/api/deals', { params, signal })
   cacheService.set(key, response.data, CACHE_TTL_MS)
   return response.data
 }
 
-export async function fetchDealById(id: string): Promise<Deal> {
+export async function fetchDealById(id: string, signal?: AbortSignal): Promise<Deal> {
   const key = `deal:${id}`
   const cached = cacheService.get<Deal>(key)
   if (cached) return cached
 
-  const response = await apiClient.get<Deal>(`/api/deals/${id}`)
+  const response = await apiClient.get<Deal>(`/api/deals/${id}`, { signal })
   cacheService.set(key, response.data, CACHE_TTL_MS)
   return response.data
 }
 
 export function invalidateDealsCache(): void {
   cacheService.invalidate('deals:')
+  cacheService.invalidate('deal:')
 }

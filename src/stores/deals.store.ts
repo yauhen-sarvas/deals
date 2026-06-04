@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import type { Deal, DealFilters, PaginationMeta, StoreError } from '@/types/deals.types'
 import { fetchDeals, fetchDealById, invalidateDealsCache } from '@/services/deals.service'
+import { isRequestAborted } from '@/services/api.service'
 import { HttpError } from '@/services/api.error'
 import { deduplicateDeals } from '@/utils/deduplication'
 import { DEFAULT_PAGE_SIZE } from '@/constants/pagination'
@@ -36,6 +37,7 @@ function initialState() {
   return {
     deals: [] as Deal[],
     currentDeal: null as Deal | null,
+    selectedDealId: null as string | null,
     isLoading: false,
     isLoadingDetail: false,
     error: null as StoreError | null,
@@ -52,6 +54,7 @@ export const useDealsStore = defineStore('deals', () => {
   const state = initialState()
   const deals = ref(state.deals)
   const currentDeal = ref(state.currentDeal)
+  const selectedDealId = ref(state.selectedDealId)
   const isLoading = ref(state.isLoading)
   const isLoadingDetail = ref(state.isLoadingDetail)
   const error = ref(state.error)
@@ -61,6 +64,9 @@ export const useDealsStore = defineStore('deals', () => {
   const sortBy = ref(state.sortBy)
   const sortDir = ref(state.sortDir)
   const pagination = ref(state.pagination)
+
+  let listAbortController: AbortController | null = null
+  let detailAbortController: AbortController | null = null
 
   const activeFilterCount = computed(() => {
     const f = filters.value
@@ -78,6 +84,10 @@ export const useDealsStore = defineStore('deals', () => {
   const hasActiveFilters = computed(() => activeFilterCount.value > 0 || search.value.trim() !== '')
 
   async function fetchDealsList(): Promise<void> {
+    listAbortController?.abort()
+    const controller = new AbortController()
+    listAbortController = controller
+
     isLoading.value = true
     error.value = null
     try {
@@ -87,26 +97,44 @@ export const useDealsStore = defineStore('deals', () => {
         { page: pagination.value.page, pageSize: pagination.value.pageSize },
         sortBy.value || undefined,
         sortDir.value,
+        controller.signal,
       )
       deals.value = response.data
       pagination.value.total = response.pagination.total
     } catch (err) {
+      if (isRequestAborted(err)) return
       error.value = toStoreError(err, 'deals.errors.loadFailed')
     } finally {
-      isLoading.value = false
+      if (listAbortController === controller) isLoading.value = false
     }
   }
 
+  function selectDeal(id: string): void {
+    selectedDealId.value = id
+    fetchDealDetail(id)
+  }
+
+  function clearSelectedDeal(): void {
+    selectedDealId.value = null
+    currentDeal.value = null
+    detailError.value = null
+  }
+
   async function fetchDealDetail(id: string): Promise<void> {
+    detailAbortController?.abort()
+    const controller = new AbortController()
+    detailAbortController = controller
+
     isLoadingDetail.value = true
     detailError.value = null
     try {
-      currentDeal.value = await fetchDealById(id)
+      currentDeal.value = await fetchDealById(id, controller.signal)
     } catch (err) {
+      if (isRequestAborted(err)) return
       detailError.value = toStoreError(err, 'deals.errors.loadDetailFailed')
       currentDeal.value = null
     } finally {
-      isLoadingDetail.value = false
+      if (detailAbortController === controller) isLoadingDetail.value = false
     }
   }
 
@@ -139,6 +167,11 @@ export const useDealsStore = defineStore('deals', () => {
     pagination.value.page = page
   }
 
+  function setPageSize(size: number): void {
+    pagination.value.pageSize = size
+    pagination.value.page = 1
+  }
+
   function mergeDeals(incoming: Deal[]): void {
     const merged = deduplicateDeals([...deals.value, ...incoming])
     deals.value = merged
@@ -150,9 +183,14 @@ export const useDealsStore = defineStore('deals', () => {
   }
 
   function $reset(): void {
+    listAbortController?.abort()
+    listAbortController = null
+    detailAbortController?.abort()
+    detailAbortController = null
     const fresh = initialState()
     deals.value = fresh.deals
     currentDeal.value = fresh.currentDeal
+    selectedDealId.value = fresh.selectedDealId
     isLoading.value = fresh.isLoading
     isLoadingDetail.value = fresh.isLoadingDetail
     error.value = fresh.error
@@ -167,6 +205,7 @@ export const useDealsStore = defineStore('deals', () => {
   return {
     deals,
     currentDeal,
+    selectedDealId,
     isLoading,
     isLoadingDetail,
     error,
@@ -180,11 +219,14 @@ export const useDealsStore = defineStore('deals', () => {
     hasActiveFilters,
     fetchDealsList,
     fetchDealDetail,
+    selectDeal,
+    clearSelectedDeal,
     applyFilters,
     clearFilters,
     setSearch,
     setSort,
     setPage,
+    setPageSize,
     mergeDeals,
     invalidateCache,
     $reset,

@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useRouter } from 'vue-router'
 import { useDealsStore } from '@/stores/deals.store'
 import DealStatusBadge from './DealStatusBadge.vue'
 import DealCard from './DealCard.vue'
@@ -13,10 +12,8 @@ import { formatCurrency, formatDate } from '@/utils/formatters'
 import { computeSmartTags, SMART_TAG_COLORS, SMART_TAG_I18N_KEYS } from '@/utils/smartTags'
 import type { SmartTag } from '@/utils/smartTags'
 import type { Deal } from '@/types/deals.types'
-import { ROUTE_NAMES } from '@/router/routes'
 
 const { t, locale } = useI18n()
-const router = useRouter()
 const store = useDealsStore()
 
 interface Column {
@@ -32,10 +29,6 @@ const columns = computed<Column[]>(() => [
   { key: 'amount', label: t('deals.columns.amount'), sortable: true },
   { key: 'createdDate', label: t('deals.columns.createdDate'), sortable: true },
 ])
-
-function navigate(deal: Deal) {
-  router.push({ name: ROUTE_NAMES.DEAL_DETAIL, params: { id: deal.dealId } })
-}
 
 function handleSort(col: Column) {
   if (!col.sortable) return
@@ -55,7 +48,12 @@ function clearAll() {
 }
 
 function tagLabel(tag: SmartTag): string {
-  return t(SMART_TAG_I18N_KEYS[tag] as string)
+  return t(SMART_TAG_I18N_KEYS[tag])
+}
+
+function handleRowClick(dealId: string, event: MouseEvent) {
+  ;(event.currentTarget as HTMLElement).focus()
+  store.selectDeal(dealId)
 }
 </script>
 
@@ -84,6 +82,9 @@ function tagLabel(tag: SmartTag): string {
               v-for="col in columns"
               :key="col.key"
               scope="col"
+              :aria-sort="col.sortable && store.sortBy === col.key
+                ? (store.sortDir === 'asc' ? 'ascending' : 'descending')
+                : (col.sortable ? 'none' : undefined)"
               :class="[
                 'px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider',
                 col.sortable ? 'cursor-pointer select-none hover:bg-gray-100' : '',
@@ -92,7 +93,7 @@ function tagLabel(tag: SmartTag): string {
             >
               <span class="flex items-center gap-1">
                 {{ col.label }}
-                <span v-if="col.sortable" class="text-gray-400 text-xs">{{ sortIcon(col.key) }}</span>
+                <span v-if="col.sortable" class="text-gray-400 text-xs" aria-hidden="true">{{ sortIcon(col.key) }}</span>
               </span>
             </th>
             <th scope="col" class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
@@ -104,13 +105,27 @@ function tagLabel(tag: SmartTag): string {
           <tr
             v-for="deal in store.deals"
             :key="deal.dealId"
-            class="hover:bg-blue-50 cursor-pointer transition-colors"
+            :class="[
+              'cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-blue-400',
+              deal.dealId === store.selectedDealId
+                ? 'bg-blue-50 ring-1 ring-inset ring-blue-300'
+                : 'hover:bg-blue-50',
+            ]"
             tabindex="0"
-            @click="navigate(deal)"
-            @keydown.enter="navigate(deal)"
+            @click="handleRowClick(deal.dealId, $event)"
+            @keydown.enter="store.selectDeal(deal.dealId)"
           >
-            <td class="px-4 py-3 font-medium text-gray-900 max-w-[200px] truncate">{{ deal.dealName }}</td>
-            <td class="px-4 py-3 text-gray-600 max-w-[180px] truncate">{{ deal.accountName }}</td>
+            <td class="px-4 py-3 font-medium text-gray-900 max-w-[200px] truncate" :title="deal.dealName">
+              <span class="flex items-center gap-2">
+                {{ deal.dealName }}
+                <span
+                  v-if="deal.dealId === store.selectedDealId && store.isLoadingDetail"
+                  class="h-3 w-3 shrink-0 animate-spin rounded-full border-2 border-blue-300 border-t-blue-600"
+                  aria-hidden="true"
+                />
+              </span>
+            </td>
+            <td class="px-4 py-3 text-gray-600 max-w-[180px] truncate" :title="deal.accountName">{{ deal.accountName }}</td>
             <td class="px-4 py-3"><DealStatusBadge :status="deal.status" /></td>
             <td class="px-4 py-3 font-medium text-gray-900">{{ formatCurrency(deal.amount, locale) }}</td>
             <td class="px-4 py-3 text-gray-500">{{ formatDate(deal.createdDate, locale) }}</td>

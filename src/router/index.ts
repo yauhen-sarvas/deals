@@ -16,11 +16,6 @@ const router = createRouter({
           component: () => import('@/views/DealsListView.vue'),
         },
         {
-          path: 'deals/:id',
-          name: ROUTE_NAMES.DEAL_DETAIL,
-          component: () => import('@/views/DealDetailView.vue'),
-        },
-        {
           path: 'admin',
           name: ROUTE_NAMES.ADMIN,
           component: () => import('@/views/AdminView.vue'),

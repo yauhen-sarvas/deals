@@ -7,6 +7,7 @@ interface Props {
   placeholder?: string
   label?: string
   error?: string
+  hideErrorText?: boolean
   disabled?: boolean
   id?: string
 }
@@ -26,6 +27,8 @@ const focused = ref(false)
 const resolvedType = computed(() =>
   props.type === 'date' && !props.modelValue && !focused.value ? 'text' : props.type
 )
+
+const errorId = computed(() => props.id ? `${props.id}-error` : undefined)
 
 function onInput(event: Event) {
   const target = event.target as HTMLInputElement
@@ -47,6 +50,8 @@ function onInput(event: Event) {
       :value="modelValue ?? ''"
       :placeholder="placeholder"
       :disabled="disabled"
+      :aria-invalid="error ? 'true' : undefined"
+      :aria-describedby="error && errorId && !hideErrorText ? errorId : undefined"
       @focus="focused = true"
       @blur="focused = false"
       :class="[
@@ -54,9 +59,10 @@ function onInput(event: Event) {
         'focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500',
         'disabled:bg-gray-50 disabled:cursor-not-allowed',
         error ? 'border-red-400' : 'border-gray-300',
+        props.type === 'number' ? '[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none' : '',
       ]"
       @input="onInput"
     />
-    <p v-if="error" class="text-xs text-red-600">{{ error }}</p>
+    <p v-if="error && !hideErrorText" :id="errorId" class="text-xs text-red-600" role="alert">{{ error }}</p>
   </div>
 </template>

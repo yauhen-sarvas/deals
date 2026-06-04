@@ -9,6 +9,7 @@ const LANGUAGES = [
   { code: 'de', label: 'DE' },
   { code: 'ja', label: 'JA' },
   { code: 'es', label: 'ES' },
+  { code: 'zh', label: 'ZH' },
 ]
 
 function setLocale(code: string) {
@@ -22,8 +23,9 @@ function setLocale(code: string) {
     <button
       v-for="lang in LANGUAGES"
       :key="lang.code"
+      :aria-pressed="locale === lang.code"
       :class="[
-        'rounded px-2 py-1 text-xs font-medium transition-colors',
+        'rounded px-2.5 py-1.5 text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-1',
         locale === lang.code
           ? 'bg-blue-600 text-white'
           : 'text-gray-600 hover:bg-gray-100',

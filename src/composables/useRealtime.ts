@@ -27,6 +27,8 @@ export function useRealtime(intervalMs = 30_000) {
         store.filters,
         store.search,
         { page: store.pagination.page, pageSize: store.pagination.pageSize },
+        store.sortBy || undefined,
+        store.sortDir,
       )
       store.mergeDeals(response.data)
     } catch {

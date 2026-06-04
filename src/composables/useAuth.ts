@@ -6,14 +6,20 @@ export function useAuth() {
   const dealsStore = useDealsStore()
 
   function switchToAdmin() {
+    dealsStore.clearSelectedDeal()
+    dealsStore.invalidateCache()
     authStore.switchUser('admin')
     dealsStore.clearFilters()
+    dealsStore.setSearch('')
     dealsStore.fetchDealsList()
   }
 
   function switchToPartner() {
+    dealsStore.clearSelectedDeal()
+    dealsStore.invalidateCache()
     authStore.switchUser('partner')
     dealsStore.clearFilters()
+    dealsStore.setSearch('')
     dealsStore.fetchDealsList()
   }
 

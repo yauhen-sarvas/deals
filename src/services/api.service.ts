@@ -33,7 +33,7 @@ function serializeParams(params: Record<string, unknown>): string {
   return sp.toString()
 }
 
-export function createApiInstance(): AxiosInstance {
+function createApiInstance(): AxiosInstance {
   const instance = axios.create({
     baseURL: '/',
     timeout: BASE_TIMEOUT_MS,
@@ -82,3 +82,7 @@ export function createApiInstance(): AxiosInstance {
 }
 
 export const apiClient = createApiInstance()
+
+export function isRequestAborted(err: unknown): boolean {
+  return axios.isCancel(err)
+}
