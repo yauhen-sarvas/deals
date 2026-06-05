@@ -4,7 +4,7 @@ import tailwindcss from '@tailwindcss/vite'
 import { resolve } from 'path'
 
 export default defineConfig({
-  base: process.env.GITHUB_PAGES ? '/dashboard/' : '/',
+  base: process.env.GITHUB_PAGES ? '/deals/' : '/',
   plugins: [
     vue(),
     tailwindcss(),
