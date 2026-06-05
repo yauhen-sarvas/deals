@@ -436,3 +436,33 @@ Full `@vue/test-utils` test suite added for all Vue components. Tests follow the
 | `package.json` | Added `test:coverage` script; added `@vitest/coverage-v8` to devDependencies |
 | `.gitignore` | Added `coverage` entry |
 | 22 new `*.test.ts` files | Component tests across `ui/`, `common/`, `deals/`, `layout/`, `views/` |
+
+---
+
+## GitHub Pages Deployment
+
+### MSW Service Worker Support on GitHub Pages
+
+Added support for deploying the app to GitHub Pages while keeping MSW (Mock Service Worker) fully functional in the browser.
+
+**Problem:** MSW runs entirely in the browser via a Service Worker — no backend needed. But three issues blocked a working deploy:
+
+1. **MSW was disabled in production builds** — `if (import.meta.env.DEV)` guard in `main.ts` prevented the worker from starting in any non-dev environment, including GitHub Pages.
+2. **Service worker URL was hardcoded** — `/mockServiceWorker.js` only works when the app is served from the root path. GitHub Pages serves from `/<repo-name>/`, so the worker would fail to register.
+3. **No `base` path configured** — Vite needs `base: '/dashboard/'` to produce correct asset paths for GitHub Pages, but hardcoding it would break `npm run dev` (which expects `/`).
+
+**Solution:**
+
+- `main.ts`: Removed the `DEV` guard so MSW starts in all environments. Changed the service worker URL from the hardcoded `/mockServiceWorker.js` to `` `${import.meta.env.BASE_URL}mockServiceWorker.js` `` — in dev `BASE_URL` is `/`, on GitHub Pages it is `/dashboard/`.
+- `vite.config.ts`: Added a conditional base: `process.env.GITHUB_PAGES ? '/dashboard/' : '/'`. The flag is only set in CI, so local dev is unaffected.
+- `.github/workflows/deploy.yml`: Created a GitHub Actions workflow that runs `npm run build` with `GITHUB_PAGES=true` and deploys the `dist/` folder to GitHub Pages on every push to `main`.
+
+**One-time setup required:** In the GitHub repository go to **Settings → Pages → Source → GitHub Actions** to enable Pages deployment via the workflow.
+
+### Files Changed
+
+| File | Change |
+|---|---|
+| `src/main.ts` | Removed `DEV` guard; service worker URL now uses `import.meta.env.BASE_URL` |
+| `vite.config.ts` | Added conditional `base` driven by `GITHUB_PAGES` env variable |
+| `.github/workflows/deploy.yml` | New — GitHub Actions workflow for automated Pages deployment |
