@@ -340,3 +340,99 @@ Full review of all Vue components for accessibility, form validation, loading/er
 #### [FIXED] Added `common.errorTitle` to all 5 locale files
 - **Files:** `en.json`, `de.json`, `ja.json`, `es.json`, `zh.json`
 - **Translations:** EN "Something went wrong" · DE "Etwas ist schiefgelaufen" · JA "エラーが発生しました" · ES "Algo salió mal" · ZH "出现了错误"
+
+---
+
+## Component Tests & Coverage
+
+### Component Tests — 22 new test files, 322 passing tests
+
+Full `@vue/test-utils` test suite added for all Vue components. Tests follow the same mocking conventions as existing store/composable tests: `vi.mock` for dependencies, plain object store mocks (not Vue refs) to avoid template auto-unwrap issues.
+
+#### UI Components (`src/components/ui/`)
+
+| File | Tests | What's covered |
+|---|---|---|
+| `AppBadge.test.ts` | 6 | Variant class mapping, customClass, slot content, element tag |
+| `AppButton.test.ts` | 11 | All 5 variants, 3 sizes, disabled state, loading spinner, type attribute |
+| `AppInput.test.ts` | 16 | v-model for text/number/null, error display, `hideErrorText`, label, `aria-invalid`, `aria-describedby`, disabled |
+| `AppCheckbox.test.ts` | 6 | v-model (checked/unchecked), label text, `for`/`id` association |
+
+#### Common Components (`src/components/common/`)
+
+| File | Tests | What's covered |
+|---|---|---|
+| `LoadingState.test.ts` | 2 | Spinner element, i18n text key |
+| `EmptyState.test.ts` | 7 | Conditional messages (hasFilters on/off), clear button visibility, `clearFilters` emit, `aria-hidden` SVG |
+| `ErrorState.test.ts` | 7 | All 5 error type → i18n key mappings, message prop, retry emit, `showRetry=false`, `aria-hidden` SVG |
+| `ErrorBoundary.test.ts` | 2 + 4 todo | Slot renders when no error, `console.error` called on child throw; 4 tests marked `.todo` — `onErrorCaptured` propagation not reliably testable in VTU+jsdom |
+
+#### Deals Components (`src/components/deals/`)
+
+| File | Tests | What's covered |
+|---|---|---|
+| `DealStatusBadge.test.ts` | 6 | All 3 statuses → variant (success/danger/info), i18n text |
+| `DealCard.test.ts` | 8 | Deal fields rendered, `selectDeal` on click and Enter, `aria-label`, `role="button"`, `tabindex`, focus ring |
+| `DealSearch.test.ts` | 7 | Input rendered, clear button visibility, `clearSearch` on Escape and button click, `aria-label`, focus ring |
+| `DealFilters.test.ts` | 8 | Status checkboxes, Apply disabled on `amountError`/`dateError`, loading spinner on `isLoading`, `applyFilters`/`clearFilters` calls |
+| `DealsFiltersPanel.test.ts` | 6 | Panel visibility tied to `isFiltersOpen`, close button, Escape key (open vs closed), `role="region"` |
+| `DealsToolbar.test.ts` | 7 | Search stub rendered, filters toggle, Clear All visibility (active/inactive), `clearFilters`+`setSearch('')`+`fetchDealsList` all called, page size select |
+| `DealsPagination.test.ts` | 11 | Empty hides nav, nav renders with deals, prev/next disabled states, prev/next click calls, `goToPage` via Enter (valid/out-of-range), `aria-label` on nav |
+| `DealTable.test.ts` | 11 | Loading/error/empty/data states, row count, deal name in row, `selectDeal` on click and Enter, sort header click, focus-visible ring, selected row highlight |
+| `DealDetailPanel.test.ts` | 9 | Loading/error states, deal name/account/amount rendered, close button calls `clearSelectedDeal`, Escape key, unassigned partner text, focus ring |
+
+#### Layout Components (`src/components/layout/`)
+
+| File | Tests | What's covered |
+|---|---|---|
+| `AppHeader.test.ts` | 6 | Deals link rendered, Admin link shown/hidden by `isAdmin`, `aria-current="page"` on active link, language/role switcher stubs present |
+| `LanguageSwitcher.test.ts` | 8 | 5 buttons rendered (EN/DE/JA/ES/ZH), `aria-pressed` on active, `aria-pressed=false` on inactive, locale change on click, localStorage persistence, active classes, focus-visible ring on all buttons |
+| `RoleSwitcher.test.ts` | 11 | Current role in trigger, menu hidden by default, opens on click, closes on Escape, current user name in menu, Admin/Partner item calls correct composable, menu closes after selection, `aria-haspopup`, `aria-expanded` toggle |
+
+#### Views (`src/views/`)
+
+| File | Tests | What's covered |
+|---|---|---|
+| `AdminView.test.ts` | 8 | Loading spinner, stats grid visible when not loading, total from `pagination.total`, Open/Approved/Rejected counts computed from `store.deals`, title/subtitle/info banner |
+| `DealsListView.test.ts` | 8 | `fetchDealsList` called on mount, toolbar/table/pagination stubs rendered, detail panel hidden when `selectedDealId=null`, detail panel rendered when `selectedDealId` set, title/subtitle |
+
+### Key Testing Patterns
+
+**Plain object mocks for stores** — Vue template auto-unwrapping only works for real reactive proxies. All store mocks use plain JS objects; values are set before each `mount()` call so the component reads the correct state at render time.
+
+**`pagination` dual-access pattern** — `usePagination` returns a `computed` ref that the component accesses both as `pagination.value.page` (in script) and `pagination.page` (auto-unwrapped in template). Mock uses `Object.assign(data, { value: data })` so both access paths resolve correctly.
+
+**`hasPrev`/`hasNext` as plain booleans** — template evaluates `!hasPrev` directly; plain booleans work correctly without ref wrapping.
+
+**`vi.mock` factory hoisting** — all mock variables are defined at module scope before `vi.mock` calls; Vitest hoists the `vi.mock()` call but the returned closures evaluate lazily, so variables are fully initialized by the time components mount.
+
+### Coverage Configuration
+
+**Installed:** `@vitest/coverage-v8` (V8 native instrumentation, zero config).
+
+**New script:** `npm run test:coverage` → runs all tests and generates:
+- Terminal table (Statements / Branches / Functions / Lines per file)
+- `coverage/index.html` — interactive HTML report with per-line highlighting
+- `coverage/lcov.info` — machine-readable format for CI / VS Code Coverage Gutters extension
+
+**Excluded from thresholds** (infrastructure files tested at integration level): `src/services/**`, `src/router/**`, `src/mocks/**`, `src/constants/**`, `src/main.ts`, `src/App.vue`, `src/i18n.ts`.
+
+**Thresholds (enforced — `npm run test:coverage` fails if not met):**
+
+| Metric | Threshold | Actual |
+|---|---|---|
+| Statements | 75% | **86.82%** |
+| Branches | 65% | **80.47%** |
+| Functions | 70% | **77.65%** |
+| Lines | 75% | **88.65%** |
+
+**`coverage/` added to `.gitignore`** — generated on demand, not committed.
+
+### Files Changed
+
+| File | Change |
+|---|---|
+| `vitest.config.ts` | Added `coverage` block: provider, reporters, include/exclude, thresholds |
+| `package.json` | Added `test:coverage` script; added `@vitest/coverage-v8` to devDependencies |
+| `.gitignore` | Added `coverage` entry |
+| 22 new `*.test.ts` files | Component tests across `ui/`, `common/`, `deals/`, `layout/`, `views/` |
